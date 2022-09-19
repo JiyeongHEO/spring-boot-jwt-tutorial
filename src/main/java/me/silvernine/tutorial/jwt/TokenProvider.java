@@ -1,3 +1,4 @@
+//3.JWT코드,security설정추가2
 package me.silvernine.tutorial.jwt;
 
 import io.jsonwebtoken.*;
@@ -37,18 +38,18 @@ public class TokenProvider implements InitializingBean {
    }
 
    @Override
-   public void afterPropertiesSet() {
+   public void afterPropertiesSet() {  //(1)
       byte[] keyBytes = Decoders.BASE64.decode(secret);
       this.key = Keys.hmacShaKeyFor(keyBytes);
    }
 
-   public String createToken(Authentication authentication) {
+   public String createToken(Authentication authentication) { //(2)
       String authorities = authentication.getAuthorities().stream()
          .map(GrantedAuthority::getAuthority)
          .collect(Collectors.joining(","));
 
       long now = (new Date()).getTime();
-      Date validity = new Date(now + this.tokenValidityInMilliseconds);
+      Date validity = new Date(now + this.tokenValidityInMilliseconds); //expiration시간
 
       return Jwts.builder()
          .setSubject(authentication.getName())
@@ -58,7 +59,7 @@ public class TokenProvider implements InitializingBean {
          .compact();
    }
 
-   public Authentication getAuthentication(String token) {
+   public Authentication getAuthentication(String token) { //(3)위와 반대
       Claims claims = Jwts
               .parserBuilder()
               .setSigningKey(key)
@@ -76,7 +77,7 @@ public class TokenProvider implements InitializingBean {
       return new UsernamePasswordAuthenticationToken(principal, token, authorities);
    }
 
-   public boolean validateToken(String token) {
+   public boolean validateToken(String token) { //(4)
       try {
          Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
          return true;

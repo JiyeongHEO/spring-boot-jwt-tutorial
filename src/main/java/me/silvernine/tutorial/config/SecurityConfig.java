@@ -43,6 +43,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
+        //1.security설정,data설정
         return (web) -> web.ignoring().antMatchers("/h2-console/**"
                 , "/favicon.ico"
                 , "/error");
@@ -57,30 +58,31 @@ public class SecurityConfig {
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .exceptionHandling()
+                //3.JWT코드,security설정추가5
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
-                // enable h2-console
+                // enable h2-console  //3.JWT코드,security설정추가5
                 .and()
                 .headers()
                 .frameOptions()
                 .sameOrigin()
 
-                // 세션을 사용하지 않기 때문에 STATELESS로 설정
+                //2.JWT코드,Sequrity설정추가. 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
+                //1.security설정, data설정.
                 .authorizeRequests()
                 .antMatchers("/api/hello").permitAll()
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/signup").permitAll()
-
-                .anyRequest().authenticated()
+                .anyRequest().authenticated() //나머지는 인증받아야한다.
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(new JwtSecurityConfig(tokenProvider)); //3.JWT코드,security설정추가5
 
         return httpSecurity.build();
     }

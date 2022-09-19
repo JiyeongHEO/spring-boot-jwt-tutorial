@@ -7,3 +7,5 @@ insert into authority (authority_name) values ('ROLE_ADMIN');
 insert into user_authority (user_id, authority_name) values (1, 'ROLE_USER');
 insert into user_authority (user_id, authority_name) values (1, 'ROLE_ADMIN');
 insert into user_authority (user_id, authority_name) values (2, 'ROLE_USER');
+
+--create-drop 방식이라 안귀찮게 아예 쿼리 만들어놓음

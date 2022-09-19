@@ -1,3 +1,4 @@
+//3.JWT코드,security설정추가2
 package me.silvernine.tutorial.jwt;
 
 import org.slf4j.Logger;
@@ -24,9 +25,10 @@ public class JwtFilter extends GenericFilterBean {
    }
 
    @Override
+   //✨
    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
       HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-      String jwt = resolveToken(httpServletRequest);
+      String jwt = resolveToken(httpServletRequest); //추가된거
       String requestURI = httpServletRequest.getRequestURI();
 
       if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
@@ -40,6 +42,7 @@ public class JwtFilter extends GenericFilterBean {
       filterChain.doFilter(servletRequest, servletResponse);
    }
 
+   //추가
    private String resolveToken(HttpServletRequest request) {
       String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 

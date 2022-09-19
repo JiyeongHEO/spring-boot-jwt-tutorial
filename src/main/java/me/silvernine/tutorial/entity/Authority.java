@@ -1,3 +1,4 @@
+//1.Security설정,data설정
 package me.silvernine.tutorial.entity;
 
 import lombok.*;

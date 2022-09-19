@@ -1,3 +1,4 @@
+//1.Security설정,data설정
 package me.silvernine.tutorial.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,8 +10,8 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "`user`")
+@Entity  //db와 1:1매핑되는 객체
+@Table(name = "`user`") 
 @Getter
 @Setter
 @Builder
